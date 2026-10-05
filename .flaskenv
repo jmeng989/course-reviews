@@ -1,0 +1,2 @@
+FLASK_APP=course_reviews.py
+FLASK_DEBUG=1

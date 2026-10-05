@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}{{ course.name }} - Tripos Reviews{% endblock %}
+
+{% block content %}
+    <section class="course-summary" aria-labelledby="course-title">
+        <p class="eyebrow">{{ course.part }} · {{ course.department }} · {{ course.term }}</p>
+        <h1 id="course-title">{{ course.name }}</h1>
+
+        <div class="course-details">
+            <div>
+                <dt>Part</dt>
+                <dd>{{ course.part }}</dd>
+            </div>
+            <div>
+                <dt>Department</dt>
+                <dd>{{ course.department }}</dd>
+            </div>
+            <div>
+                <dt>Term</dt>
+                <dd>{{ course.term }}</dd>
+            </div>
+        </div>
+    </section>
+
+    <section aria-labelledby="reviews-title">
+        <div class="section-heading">
+            <h2 id="reviews-title">Reviews</h2>
+        </div>
+
+        <div class="review-list">
+            {% for review in reviews %}
+                {% if review.content or review.lecturer_content %}
+                    <article class="review-card">
+                        <header class="review-card__header">
+                            <div>
+                                <p class="review-meta">
+                                    {{ review.academic_year }}
+                                </p>
+                            </div>
+                            <div class="review-ratings" aria-label="Review ratings">
+                                <div class="rating">
+                                    <span class="rating__label">Fun</span>
+                                    <span class="stars" aria-label="{{ review.fun / 2 }} out of 5 stars">
+                                        {% for star in range(1, 6) %}
+                                            <span class="star{% if review.fun >= star * 2 %} star--full{% elif review.fun >= star * 2 - 1 %} star--half{% endif %}" aria-hidden="true">★</span>
+                                        {% endfor %}
+                                    </span>
+                                </div>
+                                <div class="rating">
+                                    <span class="rating__label">Difficulty</span>
+                                    <span class="stars" aria-label="{{ review.difficulty / 2 }} out of 5 stars">
+                                        {% for star in range(1, 6) %}
+                                            <span class="star{% if review.difficulty >= star * 2 %} star--full{% elif review.difficulty >= star * 2 - 1 %} star--half{% endif %}" aria-hidden="true">★</span>
+                                        {% endfor %}
+                                    </span>
+                                </div>
+                            </div>
+                        </header>
+
+                        <p class="review-text">{{ review.content }}</p>
+
+                        {% if review.lecturer_content %}
+                            <div class="lecturer-review">
+                                <h3>Lecturer review</h3>
+                                <p>{{ review.lecturer_content }}</p>
+                            </div>
+                        {% endif %}
+                        {% if review.likes %}
+                            <footer class="review-card__footer">
+                                <span>{{ review.likes }} likes</span>
+                                {# Add review actions here. #}
+                            </footer>
+                        {% endif %}
+                    </article>
+                {% endif %}
+            {% else %}
+                <p class="empty-state">No reviews yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

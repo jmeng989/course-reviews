@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{{ title|default('Tripos Reviews') }}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <header class="site-header">
+            <div class="container site-header__inner">
+                <div class="site-header__left">
+                    <a class="site-title" href="{{ url_for('home') }}">Tripos Reviews</a>
+                    <nav aria-label="Part navigation">
+                        <a href="{{ url_for('IA') }}">Part IA</a>
+                        <a href="{{ url_for('IB') }}">Part IB</a>
+                        <a href="{{ url_for('II') }}">Part II</a>
+                        <a href="{{ url_for('III') }}">Part III</a>
+                    </nav>
+                </div>
+                <nav aria-label="Main navigation">
+                    <a href="{{ url_for('FAQ') }}">FAQ</a>
+                    <a href="{{ url_for('login') }}">Log in</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="container">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="flash-messages" role="status">
+                        {% for message in messages %}
+                            <p class="flash-message">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </main>
+    </body>
+</html>

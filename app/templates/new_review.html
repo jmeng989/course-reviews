@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}New review - Tripos Reviews{% endblock %}
+
+{% block content %}
+    <h1>Write a review</h1>
+
+    <form class="review-form" method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        <p>
+            {{ form.part.label }}<br>
+            {{ form.part(id="part") }}
+        </p>
+        <p>
+            {{ form.course_id.label }}<br>
+            {{ form.course_id(id="course") }}
+            {% for error in form.course_id.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.year.label }}<br>
+            {{ form.year(min=2000, max=2100) }}
+            {% for error in form.year.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.fun.label }}<br>
+            {{ form.fun }}
+            {% for error in form.fun.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.difficulty.label }}<br>
+            {{ form.difficulty }}
+            {% for error in form.difficulty.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.content.label }}<br>
+            {{ form.content(rows=8, cols=60) }}
+            {% for error in form.content.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.lecturer_content.label }}<br>
+            {{ form.lecturer_content(rows=5, cols=60) }}
+            {% for error in form.lecturer_content.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <script>
+        const courses = {{ courses | tojson }};
+        const partSelect = document.getElementById("part");
+        const courseSelect = document.getElementById("course");
+        const selectedCourse = courseSelect.value;
+
+        function updateCourses() {
+            const part = partSelect.value;
+            courseSelect.replaceChildren();
+            courses
+                .filter(course => !part || course.part === part)
+                .forEach(course => {
+                    const option = new Option(course.name, course.id);
+                    option.selected = String(course.id) === selectedCourse;
+                    courseSelect.add(option);
+                });
+        }
+
+        partSelect.addEventListener("change", updateCourses);
+        updateCourses();
+    </script>
+{% endblock %}
