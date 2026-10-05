@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from flask import render_template, flash, redirect, url_for, session
+from flask import render_template, flash, redirect, url_for
 from app import app
-from app.forms import LoginForm, ReviewForm
+from app.forms import ReviewForm
 from app.db import get_db
 
 @app.route('/')
@@ -12,16 +12,6 @@ def home():
 @app.route('/FAQ')
 def FAQ():
     return render_template('FAQ.html')
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        session['crsid'] = form.username.data
-        flash('Login requested for user {}, remember_me={}'.format(
-            form.username.data, form.remember_me.data))
-        return redirect(url_for('my_reviews'))
-    return render_template('login.html', title='Log In', form=form)
 
 @app.route('/my_reviews')
 def my_reviews():
@@ -51,7 +41,9 @@ def new_review():
         if selected_course is None or (
             form.part.data and selected_course['part'] != form.part.data
         ):
-            form.course_id.errors.append('Select a course from the chosen part.')
+            form.course_id.errors = list(form.course_id.errors) + [
+                'Select a course from the chosen part.'
+            ]
         else:
             conn = get_db()
             cur = conn.cursor()

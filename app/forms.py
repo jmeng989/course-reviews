@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask_wtf import FlaskForm
 from wtforms import (
     StringField,
@@ -5,10 +7,9 @@ from wtforms import (
     BooleanField,
     SubmitField,
     SelectField,
-    IntegerField,
     TextAreaField,
 )
-from wtforms.validators import DataRequired, Regexp, NumberRange, Optional, ValidationError
+from wtforms.validators import DataRequired, Regexp, NumberRange, Optional
 
 class LoginForm(FlaskForm):
     username = StringField('CRSID', validators=[DataRequired(), Regexp(r'^[A-Za-z]+[0-9]+$')])
@@ -20,7 +21,15 @@ class LoginForm(FlaskForm):
 class ReviewForm(FlaskForm):
     part = SelectField('Part', choices=[('', 'All parts')], validators=[Optional()])
     course_id = SelectField('Course', coerce=int, validators=[DataRequired()])
-    year = IntegerField('Academic year', validators=[DataRequired(), NumberRange(min=2000, max=2100)])
+    year = SelectField(
+        'Academic year',
+        choices=[
+            (str(year), str(year))
+            for year in range(2000, datetime.now().year + 1)
+        ],
+        coerce=int,
+        validators=[DataRequired(), NumberRange(min=2000, max=2100)],
+    )
     fun = SelectField(
         'Fun',
         choices=[(str(value), f'{value / 2:g} stars') for value in range(2, 11)],
@@ -38,7 +47,3 @@ class ReviewForm(FlaskForm):
         'Lecturer review (optional)', validators=[Optional()]
     )
     submit = SubmitField('Submit review')
-
-    def validate_course_id(self, field):
-        if field.data not in {course_id for course_id, _ in self.course_id.choices}:
-            raise ValidationError('Select a valid course.')

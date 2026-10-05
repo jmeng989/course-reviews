@@ -21,7 +21,13 @@
         </p>
         <p>
             {{ form.year.label }}<br>
-            {{ form.year(min=2000, max=2100) }}
+            {{ form.year(id="academic-year") }}
+            <output
+                id="academic-year-range"
+                class="academic-year-range"
+                for="academic-year"
+                aria-label="Academic year range"
+            ></output>
             {% for error in form.year.errors %}
                 <span class="form-error">{{ error }}</span>
             {% endfor %}
@@ -61,10 +67,13 @@
         const courses = {{ courses | tojson }};
         const partSelect = document.getElementById("part");
         const courseSelect = document.getElementById("course");
-        const selectedCourse = courseSelect.value;
+        const yearSelect = document.getElementById("academic-year");
+        const yearRange = document.getElementById("academic-year-range");
+        let selectedCourse = courseSelect.value;
 
         function updateCourses() {
             const part = partSelect.value;
+            selectedCourse = courseSelect.value;
             courseSelect.replaceChildren();
             courses
                 .filter(course => !part || course.part === part)
@@ -75,7 +84,14 @@
                 });
         }
 
+        function updateAcademicYearRange() {
+            const startYear = Number(yearSelect.value);
+            yearRange.textContent = `${startYear}-${String(startYear + 1).slice(-2)}`;
+        }
+
         partSelect.addEventListener("change", updateCourses);
+        yearSelect.addEventListener("change", updateAcademicYearRange);
         updateCourses();
+        updateAcademicYearRange();
     </script>
 {% endblock %}

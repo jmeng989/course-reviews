@@ -260,6 +260,18 @@ dd {
     color: #b42318;
 }
 
+.academic-year-range {
+    display: inline-block;
+    min-width: 5.5rem;
+    margin-left: 0.5rem;
+    padding: 0.45rem;
+    border: 1px solid #c9d0d6;
+    border-radius: 0.25rem;
+    background: #f7f8fa;
+    color: #46515c;
+    text-align: center;
+}
+
 .course-list h1 {
     margin: 0 0 1.5rem;
 }
