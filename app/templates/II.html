@@ -2,7 +2,13 @@
 
 {% block content %}
     <section class="course-list" aria-labelledby="part-title">
-        <h1 id="part-title">Part II</h1>
+        <div class="course-list__heading">
+            <h1 id="part-title">Part II</h1>
+            <nav class="course-list__links" aria-label="Part II links">
+                <a href="https://tartarus.org/gareth/maths/course-o-meter/ii">Course-o-Meter</a>
+                <a href="https://at2027.user.srcf.net/II.html">Notes Hub</a>
+            </nav>
+        </div>
 
         {# Replace `courses` with the list of courses you load in Python. #}
         {% for course in courses %}
