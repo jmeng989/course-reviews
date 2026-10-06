@@ -30,6 +30,19 @@ def my_reviews():
 def new_review():
     conn = get_db()
     cur = conn.cursor()
+
+    cur.execute(
+        "SELECT id FROM Users WHERE crsid = %s",
+        (auth.principal,)
+    )
+
+    if cur.fetchone() is None:
+        cur.execute(
+            "INSERT INTO Users (crsid) VALUES (%s)",
+            (auth.principal,)
+        )
+        conn.commit()
+
     cur.execute(
         "SELECT id, name, part FROM Courses WHERE discontinued = 0 ORDER BY part, name"
     )
