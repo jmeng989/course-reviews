@@ -70,6 +70,23 @@ nav a:focus-visible,
     text-decoration: underline;
 }
 
+.site-header__review-link {
+    padding: 0.45rem 0.8rem;
+    border: 1px solid #b8d2e8;
+    border-radius: 0.4rem;
+    background: #edf5fb;
+    color: #0b4f8a;
+    font-weight: 600;
+}
+
+.site-header__review-link:hover,
+.site-header__review-link:focus-visible {
+    border-color: #145da0;
+    background: #dcecf8;
+    color: #084475;
+    text-decoration: none;
+}
+
 main {
     min-height: calc(100vh - 9rem);
     padding: 2rem 0;
