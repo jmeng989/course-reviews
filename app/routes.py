@@ -32,7 +32,7 @@ def new_review():
     cur = conn.cursor()
 
     cur.execute(
-        "SELECT id FROM Users WHERE crsid = %s",
+        "SELECT crsid FROM Users WHERE crsid = %s",
         (auth.principal,)
     )
 
