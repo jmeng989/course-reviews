@@ -17,9 +17,9 @@ def home():
 def login():
     return f"Logged in as {auth.principal}"
 
-@app.route('/FAQ')
-def FAQ():
-    return render_template('FAQ.html')
+@app.route('/FAQs')
+def FAQs():
+    return render_template('FAQs.html')
 
 @app.route('/my_reviews')
 def my_reviews():
@@ -199,6 +199,28 @@ def III():
     courses = cur.fetchall()
     conn.close()
     return render_template('III.html', courses=courses)
+
+@app.route('/discontinued')
+def discontinued():
+    conn = get_db()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT c.*, COALESCE(stats.review_count, 0) AS review_count,
+               stats.avg_fun, stats.avg_difficulty
+        FROM Courses AS c
+        LEFT JOIN (
+            SELECT course_id, COUNT(id) AS review_count,
+                   AVG(fun) AS avg_fun, AVG(difficulty) AS avg_difficulty
+            FROM Reviews
+            WHERE hidden = 0
+            GROUP BY course_id
+        ) AS stats ON stats.course_id = c.id
+        WHERE c.discontinued = 1
+    """)
+    courses = cur.fetchall()
+    conn.close()
+    return render_template('discontinued.html', courses=courses)
 
 @app.route('/reviews/<id>')
 def reviews(id):

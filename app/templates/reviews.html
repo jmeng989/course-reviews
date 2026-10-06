@@ -20,6 +20,18 @@
                 <dt>Term</dt>
                 <dd>{{ course.term }}</dd>
             </div>
+            <div>
+                <dt>Examinable</dt>
+                <dd class="examinable-status">
+                    {% if course.examinable %}
+                        <span class="examinable-status__icon examinable-status__icon--yes" aria-hidden="true">✓</span>
+                        <span class="visually-hidden">Yes</span>
+                    {% else %}
+                        <span class="examinable-status__icon examinable-status__icon--no" aria-hidden="true">✕</span>
+                        <span class="visually-hidden">No</span>
+                    {% endif %}
+                </dd>
+            </div>
         </div>
     </section>
 

@@ -1,6 +1,41 @@
 {% extends "base.html" %}
 
+{% block title %}Home | Tripos Reviews{% endblock %}
 
 {% block content %}
+    <section class="home-hero" aria-labelledby="home-title">
+        <p class="eyebrow">Cambridge course reviews</p>
+        <h1 id="home-title">Find your next course</h1>
+        <p class="home-hero__intro">
+            Browse student reviews and ratings for every part of the Tripos.
+        </p>
+    </section>
 
+    <section class="part-links" aria-label="Course parts">
+        <a class="part-link part-link--ia" href="{{ url_for('IA') }}">
+            <span class="part-link__part">Part</span>
+            <span class="part-link__name">IA</span>
+            <span class="part-link__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="part-link part-link--ib" href="{{ url_for('IB') }}">
+            <span class="part-link__part">Part</span>
+            <span class="part-link__name">IB</span>
+            <span class="part-link__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="part-link part-link--ii" href="{{ url_for('II') }}">
+            <span class="part-link__part">Part</span>
+            <span class="part-link__name">II</span>
+            <span class="part-link__arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="part-link part-link--iii" href="{{ url_for('III') }}">
+            <span class="part-link__part">Part</span>
+            <span class="part-link__name">III</span>
+            <span class="part-link__arrow" aria-hidden="true">→</span>
+        </a>
+    </section>
+
+    <a class="discontinued-link" href="/discontinued">
+        Browse discontinued courses
+        <span aria-hidden="true">→</span>
+    </a>
 {% endblock %}
