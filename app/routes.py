@@ -4,14 +4,18 @@ from flask import render_template, flash, redirect, url_for
 from app import app
 from app.forms import ReviewForm
 from app.db import get_db
+from ucam_webauth.raven.flask_glue import AuthDecorator
+
+auth = AuthDecorator(desc="Tripos Reviews")
 
 @app.route('/')
 def home():
     return render_template('home.html')
 
 @app.route('/login')
+@auth
 def login():
-    return render_template('login.html')
+    return f"Logged in as {auth.principal}"
 
 @app.route('/FAQ')
 def FAQ():
