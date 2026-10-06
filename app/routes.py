@@ -26,6 +26,7 @@ def my_reviews():
     return 'MY REVIEWS'
 
 @app.route('/new_review', methods=['GET', 'POST'])
+@auth
 def new_review():
     conn = get_db()
     cur = conn.cursor()
@@ -57,6 +58,21 @@ def new_review():
             cur = conn.cursor()
             cur.execute(
                 """
+                SELECT 1
+                FROM Reviews
+                WHERE course_id = %s
+                AND crsid = %s
+                LIMIT 1
+                """,
+                (form.course_id.data, auth.principal)
+            )
+            if cur.fetchone():
+                flash('You have already reviewed this course.')
+                conn.close()
+                return redirect(url_for('reviews', id=form.course_id.data))
+            
+            cur.execute(
+                """
                 INSERT INTO Reviews
                     (course_id, year, crsid, fun, difficulty, content,
                      lecturer_content, hidden, likes, timestamp)
@@ -65,7 +81,7 @@ def new_review():
                 (
                     form.course_id.data,
                     form.year.data,
-                    'anonymous',
+                    auth.principal,
                     form.fun.data,
                     form.difficulty.data,
                     form.content.data,
