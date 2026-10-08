@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{{ title|default('Tripos Reviews') }}{% endblock %}</title>
+        <meta name="description" content="Course reviews written by Cambridge students for the Mathematical Tripos.">
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         {% block head %}{% endblock %}
     </head>

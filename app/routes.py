@@ -231,7 +231,7 @@ def reviews(id):
     cur.execute("SELECT * FROM Courses WHERE id = %s",(id,))
     course = cur.fetchone()
 
-    cur.execute("SELECT * FROM Reviews WHERE course_id = %s AND hidden = 0 ORDER BY likes, timestamp",(id,))
+    cur.execute("SELECT * FROM Reviews WHERE course_id = %s AND hidden = 0 ORDER BY likes DESC, year DESC",(id,))
     reviews = cur.fetchall()
 
     conn.close()
